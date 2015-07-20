@@ -12,9 +12,11 @@ add_executable(currentFixationPointRead currentFixationPointRead.cpp)
 add_executable(targetPointSend targetPointSend.cpp)
 add_executable(readAndWriteTopicsTest ReadAndWriteTopicsTest.cpp)
 add_executable(readAndWriteTopicsTestSwap ReadAndWriteTopicsTestSwap.cpp)
+add_executable(readAndWriteTopicsTestUsingNode ReadAndWriteTopicsTestUsingNode.cpp)
 
 # link with YARP libraries
 target_link_libraries(currentFixationPointRead ${YARP_LIBRARIES})
 target_link_libraries(targetPointSend ${YARP_LIBRARIES})
 target_link_libraries(readAndWriteTopicsTest ${YARP_LIBRARIES})
 target_link_libraries(readAndWriteTopicsTestSwap ${YARP_LIBRARIES})
+target_link_libraries(readAndWriteTopicsTestUsingNode ${YARP_LIBRARIES})
