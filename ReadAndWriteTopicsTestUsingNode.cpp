@@ -7,9 +7,10 @@ using namespace yarp::os;
 int main(int argc, char *argv[]) {
   Network yarp;
   yarp::os::Node    *rosNode;
+  rosNode = new yarp::os::Node("/ros_tests");
   yarp::os::Subscriber<geometry_msgs_Point> xd_inputPort;
   xd_inputPort.setReadOnly();
-  bool outputOk = xd_inputPort.open("/my_xd_in");
+  bool outputOk = xd_inputPort.topic("/my_xd_in");
   BufferedPort<geometry_msgs_Point> xd_outputPort;
   bool outputOk_3 = xd_outputPort.open("/gaze_point");
 
@@ -17,8 +18,8 @@ int main(int argc, char *argv[]) {
   bool receiver1Mux1Ok = receiverBuff1Mux1.open("/my_other_port_in");
   yarp::os::Publisher<geometry_msgs_Point> outputPort;
   outputPort.setWriteOnly();
-  bool outputOk_1 = outputPort.open("/my_x_out");
-  rosNode = new yarp::os::Node("/ros_tests");
+  bool outputOk_1 = outputPort.topic("/my_x_out");
+  
  if(!outputOk_3)
   {
     printf("outputOk_3 failed to open\n");
@@ -48,11 +49,12 @@ int main(int argc, char *argv[]) {
   }
   while(true){
     geometry_msgs_Point *reading1Mux1;
-    reading1Mux1 = xd_inputPort.read();
-    geometry_msgs_Point & out = xd_outputPort.prepare();
-    out = *reading1Mux1;
-    xd_outputPort.write();
-
+    reading1Mux1 = xd_inputPort.read(false);
+    if (reading1Mux1 != NULL){
+	geometry_msgs_Point & out = xd_outputPort.prepare();
+	out = *reading1Mux1;
+	xd_outputPort.write();
+    }
     geometry_msgs_Point *reading1Mux;
     reading1Mux = receiverBuff1Mux1.read();
 

@@ -47,10 +47,12 @@ int main(int argc, char *argv[]) {
   }
   while(true){
     geometry_msgs_Point *reading1Mux1;
-    reading1Mux1 = xd_inputPort.read();
-    geometry_msgs_Point & out = xd_outputPort.prepare();
-    out = *reading1Mux1;
-    xd_outputPort.write();
+    reading1Mux1 = xd_inputPort.read(false);
+    if (reading1Mux1 != NULL){
+	geometry_msgs_Point & out = xd_outputPort.prepare();
+	out = *reading1Mux1;
+	xd_outputPort.write();
+    }
 
     geometry_msgs_Point *reading1Mux;
     reading1Mux = receiverBuff1Mux1.read();
